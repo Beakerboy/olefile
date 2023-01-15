@@ -368,42 +368,6 @@ def filetime2datetime(filetime):
     # log.debug('timedelta days=%d' % (filetime//(10*1000000*3600*24)))
     return _FILETIME_null_date + datetime.timedelta(microseconds=filetime//10)
 
-
-
-#=== CLASSES ==================================================================
-
-class OleFileError(IOError):
-    """
-    Generic base error for this module.
-    """
-    pass
-
-class NotOleFileError(OleFileError):
-    """
-    Error raised when the opened file is not an OLE file.
-    """
-    pass
-
-class OleFileIONotClosed(RuntimeWarning):
-    """
-    Warning type used when OleFileIO is destructed but has open file handle.
-    """
-    def __init__(self, stack_of_open=None):
-        super(OleFileIONotClosed, self).__init__()
-        self.stack_of_open = stack_of_open
-
-    def __str__(self):
-        msg = 'Deleting OleFileIO instance with open file handle. ' \
-              'You should ensure that OleFileIO is never deleted ' \
-              'without calling close() first. Consider using '\
-              '"with OleFileIO(...) as ole: ...".'
-        if self.stack_of_open:
-            return ''.join([msg, '\n', 'Stacktrace of open() call:\n'] +
-                           self.stack_of_open.format())
-        else:
-            return msg
-
-
 #--- OleFileIO ----------------------------------------------------------------
 
 class OleFileIO:
